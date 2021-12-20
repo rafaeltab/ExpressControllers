@@ -8,7 +8,7 @@ export function addArgumentMeta(meta: ArgumentMeta[]) {
         const targetElement: Record<string, unknown> = target[propertyKey as keyof typeof target]
 
 
-        if (!isArgumentMetaUndefined(targetElement)) {
+        if (isArgumentMetaUndefined(targetElement)) {
             targetElement["argument_meta"] = []
         }
 
