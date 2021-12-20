@@ -1,0 +1,15 @@
+{
+    "extension": [
+        "ts"
+    ],
+    "package": "./package.json",
+    "watch-files": [
+        "src/**/*.ts",
+        "test/**/*.ts"
+    ],
+    "require": [
+        "ts-node/register"
+    ],
+    "spec": "tests/**/*.ts",
+    "recursive": true
+}
