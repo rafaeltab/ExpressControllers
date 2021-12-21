@@ -1,16 +1,18 @@
-import { Controller, Methods, requestParameter } from "../dist/src";
+import { Controller, get, requestParameter, BaseController, MethodReturnType } from "../src";
 
 @Controller({
     path: "/test",
     tags: ["Test"]
 })
-class TestController {
+class TestController extends BaseController {
 
-    @Methods.delete({
+    supacool = "yyeyaaaaah";
+
+    @get({
         path: "/test",
         description: "cool yeah"
     })
-    public get(
+    public async get(
         @requestParameter({
             name: "index",
             required: true,
@@ -23,8 +25,12 @@ class TestController {
             required: true,
             type: "boolean"
         })
-        cool: boolean): void {
-        console.log(index + " " + cool);
+        cool: boolean): Promise<MethodReturnType> {
+        
+        return {
+            content: `${index} ok ${cool} ${this.supacool}`,
+            httpCode: 200
+        }
     }
 }
 

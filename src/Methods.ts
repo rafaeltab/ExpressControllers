@@ -1,20 +1,43 @@
-var get:any = method("get");
-var post:any = method("post");
-var put:any = method("put");
-var patch:any = method("patch");
-var _delete:any = method("delete");
+import { BaseController } from "controller";
+import { FunctionThatReturns, NumberEnumerate, NumberRange } from "helpers/advancedTypes";
 
-function method(method: "get" | "post" | "put" | "patch" | "delete") {
+const get = method("get");
+const post = method("post");
+const put = method("put");
+const patch = method("patch");
+const _delete = method("delete");
+
+function method(method: Methods) {
     return function (options: MethodOptions) {
-        return function (target: any, propertyKey: string, descriptor: PropertyDescriptor): any {
+        return function <T extends BaseController>(
+            target: T,
+            propertyKey: keyof T,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            descriptor: TypedPropertyDescriptorType
+        ): void {
+
+            const targetProp: T[keyof T] & TargetPropOptions = target[propertyKey];
             Object.keys(options).forEach((x) => {
-                target[propertyKey][x] = options[x as keyof MethodOptions];
+                targetProp[x as keyof MethodOptions] = options[x as keyof MethodOptions];
             })
 
-            target[propertyKey]["method"] = "get";
+            targetProp["method"] = method;
         };
     }
-    
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type TypedPropertyDescriptorType = TypedPropertyDescriptor<FunctionThatReturns<Promise<MethodReturnType>>>
+    | TypedPropertyDescriptor<FunctionThatReturns<Promise<void>>>
+    | TypedPropertyDescriptor<FunctionThatReturns<MethodReturnType>>
+    | TypedPropertyDescriptor<FunctionThatReturns<void>>
+
+export type MethodType = TypedPropertyDescriptorType["value"]
+
+export type MethodReturnType = {
+    httpCode: `${NumberRange<1, 6>}${NumberEnumerate<10>}${NumberEnumerate<10>}` | number,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    content: any
 }
 
 export type MethodOptions = {
@@ -22,7 +45,13 @@ export type MethodOptions = {
     description?: string
 }
 
-export { 
+type Methods = "get" | "post" | "put" | "patch" | "delete";
+
+export type TargetPropOptions = {
+    method?: Methods
+} & MethodOptions;
+
+export {
     get,
     post,
     put,

@@ -24,11 +24,11 @@ export function addArgumentMeta(meta: ArgumentMeta[]) {
     }
 }
 
-type ObjectWithMeta = {
-    argument_meta: unknown[]
-} & unknown;
+export type ObjectWithMeta<T = unknown> = {
+    argument_meta: T[]
+}
 
-function isArgumentMetaUndefined(target: object): target is ObjectWithMeta {
+function isArgumentMetaUndefined(target: object): target is ObjectWithMeta & unknown {
     return !("argument_meta" in target);
 }
 

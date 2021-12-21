@@ -1,5 +1,28 @@
 export { version } from "../package.json";
-export { Controller, ControllerOptions } from "./Controller";
-export { ExpressServer } from "./ExpressServer";
-export * as Methods from "./Methods";
-export { RequestParameterOptions, requestParameter } from "./RequestParameter";
+export {
+    Controller,
+    ControllerOptions,
+    BaseController
+} from "./controller";
+export { ExpressServer } from "./expressServer";
+export { 
+    MethodOptions,
+    MethodReturnType,
+    MethodType,
+    TargetPropOptions,
+    _delete,
+    delete,
+    get,
+    patch,
+    post,
+    put
+} from "./methods";
+export {
+    RequestParameterOptions,
+    requestParameter,
+    CustomParameterFailureResult,
+    CustomParameterOptions,
+    CustomParameterResult,
+    CustomParameterSuccessResult,
+    ParameterPosition
+} from "./requestParameter";

@@ -16,3 +16,11 @@ export type ControllerOptions = {
     path: string,
     tags?: string[]
 }
+
+export type ControllerMark = {
+    isController?: true
+}
+
+export abstract class BaseController {
+    
+}
